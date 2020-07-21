@@ -61,7 +61,7 @@ public class AuthorizeController {
             userMapper.insert(tUser);
 
             response.addCookie(new Cookie("token", tUser.getToken()));
-            request.getSession().setAttribute("user", githubUser);
+            request.getSession().setAttribute("user", tUser);
 
         } else {
 
