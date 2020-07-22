@@ -28,7 +28,7 @@ public class AuthorizeController {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private UserMapper userMapper;
-
+//inject from property file
     @Value("${github.client.id}")
     private String clientId;
     @Value("${github.client.secret}")
@@ -57,11 +57,16 @@ public class AuthorizeController {
             tUser.setName(githubUser.getName());
             tUser.setGmtModified(tUser.getGmtCreate());
             tUser.setToken(UUID.randomUUID().toString());
+            tUser.setAvatarUrl(githubUser.getAvatar_url());
 
-            userMapper.insert(tUser);
+            TUser user = userMapper.findUserByAccountId(tUser);
+
+            if ( user == null){
+                userMapper.insert(tUser);
+            }
 
             response.addCookie(new Cookie("token", tUser.getToken()));
-            request.getSession().setAttribute("user", tUser);
+            request.getSession().setAttribute("user", user);
 
         } else {
 

@@ -12,6 +12,17 @@
     <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
 <!--    <script src="../static/js/bootstrap.bundle.js"></script>-->
 
+    <style>
+        .text-description{
+            font-size: 12px;
+            font-weight: normal;
+            color: #999;
+        }
+
+
+
+    </style>
+
 
 </head>
 <body>
@@ -48,6 +59,34 @@
 
     </div>
 </nav>
+
+<div class="container main">
+<div class="row">
+    <div class="col-lg-9 col-md-12 col-sm-12, col-xs-12">
+        <h2><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list-ul" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        </svg>Post</h2>
+        <hr>
+
+        <div class="media" th:each="question : ${questions}">
+            <img src="" class="mr-3" alt="" th:src="${question.getUser().getAvatarUrl()}" >
+            <div class="media-body">
+                <h5 class="mt-0" th:text="${question.getTitle()}">How to build a website?</h5>
+                <span th:text="${question.getDescription()}">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</span><br>
+                <span class="text-description"><span th:text="${question.getCommentCount()}">0</span> comment • <span th:text="${question.getViewCount()}">47</span> view</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-3 col-md-12 col-sm-12, col-xs-12">
+        <h3>Top topics</h3>
+        <p>When you start your question ,you should know the question should not be duplicate with questions already there!</p>
+
+    </div>
+
+</div>
+</div>
+
 
 
 

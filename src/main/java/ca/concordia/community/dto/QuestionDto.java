@@ -1,13 +1,13 @@
-package ca.concordia.community.model;
+package ca.concordia.community.dto;
 
+import ca.concordia.community.model.TUser;
 import lombok.Data;
-import sun.rmi.runtime.Log;
 
 /**
- * Created by Hanford Wu on 2020-07-21 5:21 p.m.
+ * Created by Hanford Wu on 2020-07-22 12:29 a.m.
  */
 @Data
-public class Question {
+public class QuestionDto {
     private Integer id;
     private String title;
     private String description;
@@ -18,4 +18,5 @@ public class Question {
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
+    private TUser user;
 }
