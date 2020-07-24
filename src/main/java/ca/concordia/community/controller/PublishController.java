@@ -73,6 +73,8 @@ public class PublishController {
 
 
         question.setCreator(user.getId());
+        question.setCommentCount(0);
+        question.setViewCount(0);
 
         questionMapper.create(question);
 

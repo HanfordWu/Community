@@ -39,6 +39,10 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+
+            <a class="nav-link" href="/publish">New Question</a>
+
+
             <li class="nav-item" th:if="${session.user == null}">
                 <a class="nav-link" href="https://github.com/login/oauth/authorize?client_id=21a08d7375c84e0068fa&client_secret=b48815e2a7695c2fd702cbe4f18cd3596ab16558&redirect_uri=http://localhost:8080/callback&scope=user">Login</a>
             </li>
@@ -69,11 +73,11 @@
         <hr>
 
         <div class="media" th:each="question : ${questions}">
-            <img src="" class="mr-3" alt="" th:src="${question.getUser().getAvatarUrl()}" >
+            <img src="" class="mr-3" alt="" th:src="${question.getUser().getAvatarUrl()}" style="width: 30px">
             <div class="media-body">
                 <h5 class="mt-0" th:text="${question.getTitle()}">How to build a website?</h5>
                 <span th:text="${question.getDescription()}">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</span><br>
-                <span class="text-description"><span th:text="${question.getCommentCount()}">0</span> comment • <span th:text="${question.getViewCount()}">47</span> view</span>
+                <span class="text-description"><span th:text="${question.getCommentCount()}">0</span> comment • <span th:text="${question.getViewCount()}">47</span> view • post at <span th:text="${#dates.format(question.getGmtCreate(), 'dd MMM, yyyy')}"></span></span>
             </div>
         </div>
 

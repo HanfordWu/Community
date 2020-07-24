@@ -17,10 +17,8 @@ public interface UserMapper {
     void insert(TUser tUser);
 
     @Select("select * from t_user where account_id=#{accountId}")
-    @Options(useGeneratedKeys=true, keyProperty="id")
     TUser findUserByAccountId(TUser user);
 
     @Select("select * from t_user where id=#{id}")
-    @Options(useGeneratedKeys=true, keyProperty="id")
     TUser findUserById(Long id);
 }
