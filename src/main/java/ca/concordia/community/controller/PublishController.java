@@ -1,13 +1,15 @@
 package ca.concordia.community.controller;
 
+import ca.concordia.community.dto.QuestionDto;
 import ca.concordia.community.mapper.QuestionMapper;
 import ca.concordia.community.model.Question;
-import ca.concordia.community.model.TUser;
-import org.h2.engine.User;
+import ca.concordia.community.model.QuestionExample;
+import ca.concordia.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,8 +34,10 @@ public class PublishController {
     public String doPublish(@RequestParam String title,
                             @RequestParam String description,
                             @RequestParam String tags,
+                            @RequestParam String id,
                             HttpServletRequest request,
                             Model model) {
+
 
         model.addAttribute("title", title);
         model.addAttribute("description", description);
@@ -56,7 +60,7 @@ public class PublishController {
 
 
 
-        TUser user = (TUser) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
 
         if (user == null){
             model.addAttribute("error", "You are not logged in");
@@ -64,22 +68,46 @@ public class PublishController {
         }
 
 
+
+
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tags);
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreate());
+
 
 
         question.setCreator(user.getId());
         question.setCommentCount(0);
         question.setViewCount(0);
 
-        questionMapper.create(question);
+        if (id != null && !"".equals(id)){
+            question.setGmtModified(System.currentTimeMillis());
+            question.setId(Integer.parseInt(id));
+            QuestionExample example = new QuestionExample();
+            example.createCriteria().andIdEqualTo(question.getId());
+            questionMapper.updateByExampleSelective(question, example);
+        }else {
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.insert(question);
+        }
+
 
 
         return "redirect:/";
+    }
+
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable int id,
+                       Model model){
+        Question questionDto = questionMapper.selectByPrimaryKey(id);
+//        model.addAttribute("question", questionDto);
+        model.addAttribute("title", questionDto.getTitle());
+        model.addAttribute("description", questionDto.getDescription());
+        model.addAttribute("tag", questionDto.getTag());
+        model.addAttribute("questionId", id);
+        return "publish";
     }
 
 

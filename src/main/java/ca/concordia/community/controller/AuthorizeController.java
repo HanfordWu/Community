@@ -3,7 +3,8 @@ package ca.concordia.community.controller;
 import ca.concordia.community.dto.AccessTokenDto;
 import ca.concordia.community.dto.GithubUser;
 import ca.concordia.community.mapper.UserMapper;
-import ca.concordia.community.model.TUser;
+import ca.concordia.community.model.User;
+import ca.concordia.community.model.UserExample;
 import ca.concordia.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -51,22 +53,27 @@ public class AuthorizeController {
 
         if (githubUser != null) {
 
-            TUser tUser = new TUser();
-            tUser.setAccountId(String.valueOf(githubUser.getId()));
-            tUser.setGmtCreate(System.currentTimeMillis());
-            tUser.setName(githubUser.getName());
-            tUser.setGmtModified(tUser.getGmtCreate());
-            tUser.setToken(UUID.randomUUID().toString());
-            tUser.setAvatarUrl(githubUser.getAvatar_url());
+            UserExample userExample = new UserExample();
+            userExample.createCriteria().andAccountIdEqualTo(Integer.toString(githubUser.getId()));
+            List<User> user = userMapper.selectByExample(userExample);
 
-            TUser user = userMapper.findUserByAccountId(tUser);
 
-            if ( user == null){
+
+
+            User tUser = new User();
+            if ( user.size() == 0){
+
+                tUser.setAccountId(String.valueOf(githubUser.getId()));
+                tUser.setGmtCreate(System.currentTimeMillis());
+                tUser.setName(githubUser.getName());
+                tUser.setGmtModified(tUser.getGmtCreate());
+                tUser.setToken(UUID.randomUUID().toString());
+                tUser.setAvatarUrl(githubUser.getAvatar_url());
                 userMapper.insert(tUser);
             }
 
             response.addCookie(new Cookie("token", tUser.getToken()));
-            request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("user", user.get(0));
 
         } else {
 
@@ -74,6 +81,14 @@ public class AuthorizeController {
         }
         return "redirect:/";
 
+    }
+
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().removeAttribute("user");
+
+        return "redirect:/";
     }
 
 

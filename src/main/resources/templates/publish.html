@@ -17,7 +17,7 @@
 <body style="background-color: #efefef">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Concordia Community</a>
+    <a class="navbar-brand" href="/">Concordia Community</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -28,6 +28,10 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+
+            <a class="nav-link" href="/publish">New Question</a>
+
+
             <li class="nav-item" th:if="${session.user == null}">
                 <a class="nav-link" href="https://github.com/login/oauth/authorize?client_id=21a08d7375c84e0068fa&client_secret=b48815e2a7695c2fd702cbe4f18cd3596ab16558&redirect_uri=http://localhost:8080/callback&scope=user">Login</a>
             </li>
@@ -36,10 +40,11 @@
                     Me
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                    <a class="dropdown-item" href="/profile/questions">Profile</a>
                     <a class="dropdown-item" href="#">Message</a>
                     <a class="dropdown-item" href="#">Profile</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Logout</a>
+                    <a class="dropdown-item" href="#/logout">Logout</a>
                 </div>
             </li>
 
@@ -47,7 +52,6 @@
 
     </div>
 </nav>
-
 <br>
 <br>
 <br>
@@ -63,6 +67,7 @@
             <hr>
 
             <form action="/publish" method="post">
+                <input type="text"  hidden="hidden" name="id" th:value="${questionId}">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Question</label>
                     <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="title" th:value="${title}">

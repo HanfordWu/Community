@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html">
+    <title>Community</title>
+
+    <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+
+    <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+
+    <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+<!--    <script src="../static/js/bootstrap.bundle.js"></script>-->
+
+    <style>
+        .text-description{
+            font-size: 12px;
+            font-weight: normal;
+            color: #999;
+        }
+
+
+
+    </style>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Concordia Community</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+            <a class="nav-link" href="/publish">New Question</a>
+
+
+            <li class="nav-item" th:if="${session.user == null}">
+                <a class="nav-link" href="https://github.com/login/oauth/authorize?client_id=21a08d7375c84e0068fa&client_secret=b48815e2a7695c2fd702cbe4f18cd3596ab16558&redirect_uri=http://localhost:8080/callback&scope=user">Login</a>
+            </li>
+            <li class="nav-item dropdown" th:if="${session.user != null}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${session.user.getName()}">
+                    Me
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                    <a class="dropdown-item" href="/profile/questions">Profile</a>
+                    <a class="dropdown-item" href="#">Message</a>
+                    <a class="dropdown-item" href="#">Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>
+
+<!--<div class="container">-->
+    <div class="jumbotron">
+        <h1 class="display-4">Error</h1>
+        <p th:text="${message}">It's too hot! Come on in later!</p>
+
+        <p><a href="/" class="btn btn-primary btn-lg">Back to home page</a></p>
+        </div>
+
+
+<!--</div>-->
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 package ca.concordia.community.dto;
 
-import ca.concordia.community.model.TUser;
+import ca.concordia.community.model.User;
 import lombok.Data;
 
 /**
@@ -14,10 +14,10 @@ public class QuestionDto {
     private String tag;
     private Long gmtCreate;
     private Long gmtModified;
-    private Long creator;
+    private Integer creator;
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
-    private TUser user;
+    private User user;
 
 }
