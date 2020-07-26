@@ -6,12 +6,20 @@ package ca.concordia.community.exception;
 public class CustomizeException extends RuntimeException{
 
     private final String message;
-    public CustomizeException(String message){
+    private final int code;
+    public CustomizeException(int code, String message){
         this.message = message;
+        this.code = code;
+    }
+
+    public int getCode() {
+        return code;
     }
 
     @Override
     public String getMessage() {
         return message;
     }
+
+
 }

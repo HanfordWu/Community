@@ -52,7 +52,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
                     <a class="dropdown-item" href="/profile/questions">Profile</a>
-                    <a class="dropdown-item" href="#">Message</a>
+                    <a class="dropdown-item" href="/profile/replies">Message <span class="badge badge-danger float-right">Danger</span></a>
                     <a class="dropdown-item" href="#">Profile</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/logout">Logout</a>
@@ -73,13 +73,13 @@
         <hr>
 
         <div class="media" th:each="question : ${questions.getQuestions()}">
-            <img src="" class="mr-3" alt="" th:src="${question.getUser().getAvatarUrl()}" style="width: 30px">
+            <img src="" class="mr-3" alt="" th:src="${question.getUser().getAvatarUrl()}" style="width: 50px">
             <div class="media-body">
                 <h5 class="mt-0" >
                     <a href="" th:href="@{'question/'+${question.id}}" th:text="${question.getTitle()}"></a>
-                </h5>in
-                <span th:text="${question.getDescription()}">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</span><br>
-                <span class="text-description"><span th:text="${question.getCommentCount()}">0</span> comment • <span th:text="${question.getViewCount()}">47</span> view • post at <span th:text="${#dates.format(question.getGmtCreate(), 'dd MMM, yyyy')}"></span></span>
+                </h5>
+                <span th:text="${question.getDescription()}"></span><br>
+                <span class="text-description"><span th:text="${question.getCommentCount()}">0</span> comment • <span th:text="${question.getViewCount()}">47</span> view •  <span class="float-right" th:text="${#dates.format(question.getGmtCreate(), 'dd MMM, yyyy')}"></span><span class="float-right">post at &nbsp; </span></span>
             </div>
         </div>
         <nav aria-label="Page navigation example">
@@ -105,12 +105,16 @@
 </div>
 
 
+<script>
+    window.onload = function () {
+        let closable = window.localStorage.getItem("closable");
+        if (closable != null && closable === "true"){
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
 
+    }
 
-
-
-
-
-
+</script>
 </body>
 </html>

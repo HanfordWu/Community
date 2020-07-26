@@ -20,6 +20,17 @@
         }
 
 
+        #icons>svg{
+            margin-right: 10px;
+        }
+
+        .collapse{
+            padding-top: 15px;
+            border: 1px solid #eee;
+        }
+
+
+
 
     </style>
 
@@ -72,6 +83,10 @@
         <hr>
 
         <div class="col-lg-12 col-md-12 col-sm-12, col-xs-12" th:text="${question.getDescription()}"></div>
+        <span th:each="stag : ${question.tag.split(' ')}">
+        <span class="badge badge-info" th:text="${stag}"></span>
+
+        </span>
 
             <hr>
 
@@ -80,6 +95,59 @@
                 <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
             </svg>Edit</a>
 
+        <hr>
+
+        <h3 ><span th:text="${comments.size()}"></span> Comments</h3>
+        <div class="col-lg-12 col-md-12 col-sm-12, col-xs-12" th:each="comment : ${comments}">
+            <div class="media">
+                <img src="" class="mr-3" alt="" th:src="${comment.getUser().getAvatarUrl()}" style="width: 40px">
+                <div class="media-body" th:id="${'comment-body-'+comment.id}">
+                    <h5 class="mt-0" >
+                        <span href="" th:href="@{'/question/'+${comment.id}}" th:text="${comment.user.getName()}"></span>
+                    </h5>
+                    <div th:text="${comment.content}">wo shi hui fu neir rong</div>
+                    <div id="icons">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-hand-thumbs-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16v-1c.563 0 .901-.272 1.066-.56a.865.865 0 0 0 .121-.416c0-.12-.035-.165-.04-.17l-.354-.354.353-.354c.202-.201.407-.511.505-.804.104-.312.043-.441-.005-.488l-.353-.354.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315L12.793 9l.353-.354c.353-.352.373-.713.267-1.02-.122-.35-.396-.593-.571-.652-.653-.217-1.447-.224-2.11-.164a8.907 8.907 0 0 0-1.094.171l-.014.003-.003.001a.5.5 0 0 1-.595-.643 8.34 8.34 0 0 0 .145-4.726c-.03-.111-.128-.215-.288-.255l-.262-.065c-.306-.077-.642.156-.667.518-.075 1.082-.239 2.15-.482 2.85-.174.502-.603 1.268-1.238 1.977-.637.712-1.519 1.41-2.614 1.708-.394.108-.62.396-.62.65v4.002c0 .26.22.515.553.55 1.293.137 1.936.53 2.491.868l.04.025c.27.164.495.296.776.393.277.095.63.163 1.14.163h3.5v1H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
+                            <span th:text="${comment.getLikeCount()}"></span>
+                        </svg>
+                        &nbsp;
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-square-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg" th:data-id="${comment.id}" onclick="collapseComments(this)">
+                            <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2.5a2 2 0 0 1 1.6.8L8 14.333 9.9 11.8a2 2 0 0 1 1.6-.8H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                            <span th:text="${comments.size()}"></span>
+                        </svg>
+                        <span class="float-right" th:text="${#dates.format(comment.getGmtCreate(), 'dd MMM, yyyy')}"></span>
+
+<!--                        二级评论-->
+                        <div class="collapse" th:id="${'comment-'+comment.id}">
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        <hr>
+
+<!--        <input type="hidden" id="question_id" value="121212"></input>-->
+        <div class="media" th:if="${session.user != null}" id="comment_section">
+            <img src="" class="mr-3" alt="" th:src="${session.user.getAvatarUrl()}" style="width: 30px">
+            <div class="media-body">
+                <h5 class="mt-0" >
+                    <span href="" th:text="${session.user.getName()}"></span>
+                </h5>
+            </div>
+        </div>
+        <br>
+        <input type="hidden" id="question_id" th:value="${question.getId()}">
+        <label for="comment_content"></label><textarea id="comment_content" name="content" cols="30" rows="10" class="form-control"></textarea>
+        <br>
+        <button class="btn btn-success float-right" ONCLICK="post()">Post</button>
 
 
 
@@ -103,18 +171,137 @@
         <hr>
         <div class="col-lg-12 col-md-12 col-sm-12, col-xs-12">
             <h3>Related Question</h3>
+            <div th:each="relatedQuestion: ${relatedQuestions}">
+
+                <a href="" th:href="${'/question/'+relatedQuestion.id}" th:text="${relatedQuestion.getTitle()}"></a>
+            </div>
+
         </div>
     </div>
 
 </div>
 </div>
 
+<script>
+    function post() {
+        let questionId = $("#question_id").val();
+        console.log(questionId)
+        let content = $("#comment_content").val();
+
+        comment2targetId(questionId, 1, content);
+    }
+
+    function comment2targetId(targetId, type, content) {
+
+        if (!content){
+            alert("Content cannot be empty!")
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '/comment',
+            contentType: "application/json",
+            data: JSON.stringify({
+                "parentId": targetId,
+                "content": content,
+                "type": type
+            }) ,
+            success:function (response) {
+                if (response.code==200){
+                    window.location.reload();
+                } else {
+                    if (response.code = 2005 ){
+                        if(confirm("You are not login! Click Yes to login!")){
+                            window.open("https://github.com/login/oauth/authorize?client_id=21a08d7375c84e0068fa&client_secret=b48815e2a7695c2fd702cbe4f18cd3596ab16558&redirect_uri=http://localhost:8080/callback&scope=user")
+                            window.localStorage.setItem("closable", "true");
+                        }
+                    }
+
+                }
+            },
+            dataType:"json"
+
+        })
+
+    }
+
+
+
+    function comment(e) {
+        let id = e.getAttribute("data-id");
+        let content=$("#input-"+id).val();
+        comment2targetId(id, 2, content)
+
+    }
 
 
 
 
 
 
+    function collapseComments(e) {
+        let id  = e.getAttribute("data-id")
+        let comments = $("#comment-"+id);
+        // console.log(comments)
+        if (!comments.hasClass("show")){
+
+            $.getJSON("/comment/"+id, function (data) {
+                let commentBody = $("#comment-body-"+id);
+                let subcomments=''
+                data.data.forEach(comment => {
+                    subcomments = subcomments+ '<div class="col-lg-12 col-md-12 col-sm-12, col-xs-12" th:each="comment : ${comments}">\n' +
+                        '                    <div class="media">\n' +
+                        '                    <img src="'+comment.user.avatarUrl+'" class="mr-3" alt="" style="width: 40px">\n' +
+                        '                    <div class="media-body">\n' +
+                        '                    <h5 class="mt-0" >\n' +
+                        '                    <span href="" th:href="@{\'/question/\'+${comment.id}}" >'+comment.user.name+'</span>\n' +
+                        '                    </h5>\n' +
+                        '                    <div">'+comment.content+'</div>\n' +
+                        '                <div id="icons">\n' +
+                        '                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-hand-thumbs-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">\n' +
+                        '                    <path fill-rule="evenodd" d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16v-1c.563 0 .901-.272 1.066-.56a.865.865 0 0 0 .121-.416c0-.12-.035-.165-.04-.17l-.354-.354.353-.354c.202-.201.407-.511.505-.804.104-.312.043-.441-.005-.488l-.353-.354.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315L12.793 9l.353-.354c.353-.352.373-.713.267-1.02-.122-.35-.396-.593-.571-.652-.653-.217-1.447-.224-2.11-.164a8.907 8.907 0 0 0-1.094.171l-.014.003-.003.001a.5.5 0 0 1-.595-.643 8.34 8.34 0 0 0 .145-4.726c-.03-.111-.128-.215-.288-.255l-.262-.065c-.306-.077-.642.156-.667.518-.075 1.082-.239 2.15-.482 2.85-.174.502-.603 1.268-1.238 1.977-.637.712-1.519 1.41-2.614 1.708-.394.108-.62.396-.62.65v4.002c0 .26.22.515.553.55 1.293.137 1.936.53 2.491.868l.04.025c.27.164.495.296.776.393.277.095.63.163 1.14.163h3.5v1H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>\n' +
+                        '                    </svg>\n' +
+                        '                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-square-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg" th:data-id="${comment.id}">\n' +
+                        '                    <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2.5a2 2 0 0 1 1.6.8L8 14.333 9.9 11.8a2 2 0 0 1 1.6-.8H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>\n' +
+                        '                    <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>\n' +
+                        '                    </svg>\n' +
+                        '                    <span class="float-right">'+new Date(comment.gmtModified).toDateString()+'</span>\n' +
+                        '                    </div>\n' +
+                        '                    </div>\n' +
+                        '                    </div>\n' +
+                        '                    </div>'
+
+                })
+
+
+                subcomments = subcomments + '<div class="container">\n' +
+                    '\n' +
+                    '                                <div class="row">\n' +
+                    '                                    <label for="validationTooltip05"></label><input type="text" class="form-control col-10" id="input-'+id+'" placeholder="Comment Here"><button class="btn btn-success col-1" data-id="'+id+'" onclick="comment(this)">Reply</button>\n' +
+                    '                                </div>\n' +
+                    '\n' +
+                    '                            </div>'
+
+
+                comments.append($.parseHTML(subcomments))
+
+            })
+
+            comments.addClass("show");
+
+        }else {
+            // comments.clear()
+            // console.log(comments)
+            comments.innerHTML=''
+            comments.removeClass("show")
+        }
+
+    }
+
+
+
+</script>
 
 
 </body>

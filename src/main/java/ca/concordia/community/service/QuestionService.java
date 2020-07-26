@@ -31,11 +31,13 @@ public class QuestionService {
     private QuestionExtMapper questionExtMapper;
 
 
-    public PaginationDto listByUserId(Integer page,
+    public PaginationDto listQuestion(Integer page,
                                       Integer size) {
         Integer offset = size * (page - 1);
         PaginationDto paginationDto = new PaginationDto();
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        QuestionExample example = new QuestionExample();
+        example.setOrderByClause("gmt_create desc");
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
         List<QuestionDto> questionDtos=new ArrayList<>();
         for (Question question : questions) {
             User user=userMapper.selectByPrimaryKey(question.getCreator());
@@ -49,7 +51,7 @@ public class QuestionService {
         return paginationDto;
     }
 
-    public PaginationDto listByUserId(int id,
+    public PaginationDto listQuestion(int id,
                                       Integer page,
                                       Integer size) {
 
@@ -58,6 +60,7 @@ public class QuestionService {
         PaginationDto paginationDto = new PaginationDto();
         QuestionExample example1 = new QuestionExample();
         example1.createCriteria().andCreatorEqualTo(id);
+        example1.setOrderByClause("gmt_create desc");
         List<Question> questions=questionMapper.selectByExampleWithRowbounds(example1, new RowBounds(offset, size));
         List<QuestionDto> questionDtos=new ArrayList<>();
         for (Question question : questions) {
@@ -78,7 +81,7 @@ public class QuestionService {
     public QuestionDto getById(int id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         if (question == null){
-            throw new CustomizeException("The question doesn't exist, try anther one!");
+            throw new CustomizeException(2006, "The question doesn't exist, try anther one!");
         }
 
 

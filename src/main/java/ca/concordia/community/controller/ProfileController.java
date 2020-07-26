@@ -27,7 +27,7 @@ public class ProfileController {
                           Model model,
                           HttpServletRequest request,
                           @RequestParam(name="page", defaultValue = "1") Integer page,
-                          @RequestParam(name="size", defaultValue = "1") Integer size
+                          @RequestParam(name="size", defaultValue = "10") Integer size
     ){
 
         if ("questions".equals(action)){
@@ -45,7 +45,7 @@ public class ProfileController {
         }
 
 
-        PaginationDto paginationDto = questionService.listByUserId(user.getId(), page, size);
+        PaginationDto paginationDto = questionService.listQuestion(user.getId(), page, size);
 
         model.addAttribute("questions", paginationDto);
 

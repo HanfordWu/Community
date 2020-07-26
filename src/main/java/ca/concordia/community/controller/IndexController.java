@@ -23,10 +23,10 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model,
                         @RequestParam(name="page", defaultValue = "1") Integer page,
-                        @RequestParam(name="size", defaultValue = "1") Integer size
+                        @RequestParam(name="size", defaultValue = "10") Integer size
                         ){
 
-        PaginationDto questions=questionService.listByUserId(page, size);
+        PaginationDto questions=questionService.listQuestion(page, size);
         model.addAttribute("questions", questions);
 
 

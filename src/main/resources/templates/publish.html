@@ -83,7 +83,7 @@
                 </div>
                 <div class="form-group">
                     <label for="tags">Add Tags:</label>
-                    <input class="form-control" id="tags" name="tags" aria-describedby="emailHelp" th:value="${tags}">
+                    <input class="form-control" id="tags" name="tags" aria-describedby="emailHelp" th:value="${tag}">
                 </div>
                 <span class="alert alert-danger" th:if="${error != null}" th:text="${error}"></span>
                 <button type="submit" class="btn btn-primary">Submit</button>
