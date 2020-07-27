@@ -2,11 +2,10 @@ package ca.concordia.community.service;
 
 import ca.concordia.community.dto.CommentDto;
 import ca.concordia.community.enums.CommentTypeEnum;
+import ca.concordia.community.enums.NotificationStatusEnum;
+import ca.concordia.community.enums.NotificationTypeEnum;
 import ca.concordia.community.exception.CustomizeException;
-import ca.concordia.community.mapper.CommentMapper;
-import ca.concordia.community.mapper.QuestionExtMapper;
-import ca.concordia.community.mapper.QuestionMapper;
-import ca.concordia.community.mapper.UserMapper;
+import ca.concordia.community.mapper.*;
 import ca.concordia.community.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +35,14 @@ public class CommentService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private NotificationMapper notificationMapper;
+
 
 
 
     @Transactional
-    public void insert(Comment comment) {
+    public void insert(Comment comment, User commentator) {
         if (comment.getParentId() == null || comment.getParentId() ==0){
             throw new CustomizeException(2001, "comment has no parent id");
         }
@@ -53,6 +55,10 @@ public class CommentService {
                 throw new CustomizeException(2003, "Comment you are replying Is Not Found!");
             }else {
                 commentMapper.insert(comment);
+
+                createNotify(comment, dbComment.getCommentator(), commentator.getName(), comment.getContent(), NotificationTypeEnum.REPLY_COMMENT);
+
+
             }
         }else{
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -62,8 +68,31 @@ public class CommentService {
                 commentMapper.insert(comment);
                 question.setCommentCount(1);
                 questionExtMapper.incCommentCount(question);
+
+                createNotify(comment, question.getCreator(),commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_QUESTION);
             }
         }
+    }
+
+    private void createNotify(Comment comment,
+                              Integer receiver,
+                              String notifierName,
+                              String outerTitle,
+                              NotificationTypeEnum notificationTypeEnum) {
+        Notification notification = new Notification();
+
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationTypeEnum.getType());
+
+        notification.setOuterId(comment.getParentId());
+
+        notification.setNotifier(comment.getCommentator());
+
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
+        notification.setOuterTitle(outerTitle);
+
+        notificationMapper.insert(notification);
     }
 
     public List<CommentDto> listByQuestionId(int id,

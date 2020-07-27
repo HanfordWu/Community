@@ -1,7 +1,10 @@
 package ca.concordia.community.controller;
 
+import ca.concordia.community.dto.NotificationDto;
 import ca.concordia.community.dto.PaginationDto;
+import ca.concordia.community.model.Notification;
 import ca.concordia.community.model.User;
+import ca.concordia.community.service.NotificationService;
 import ca.concordia.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,9 @@ public class ProfileController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private NotificationService notificationService;
+
 
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable() String action,
@@ -30,13 +36,6 @@ public class ProfileController {
                           @RequestParam(name="size", defaultValue = "10") Integer size
     ){
 
-        if ("questions".equals(action)){
-            model.addAttribute("section", "questions");
-            model.addAttribute("sectionName", "MyQuestion");
-        } else if ("replies".equals(action)){
-            model.addAttribute("section", "replies");
-            model.addAttribute("sectionName", "My replies");
-        }
 
         User user = (User) request.getSession().getAttribute("user");
 
@@ -45,10 +44,22 @@ public class ProfileController {
         }
 
 
-        PaginationDto paginationDto = questionService.listQuestion(user.getId(), page, size);
+        if ("questions".equals(action)){
+            model.addAttribute("section", "questions");
+            model.addAttribute("sectionName", "MyQuestion");
+            PaginationDto paginationDto = questionService.listQuestion(user.getId(), page, size);
 
-        model.addAttribute("questions", paginationDto);
+            model.addAttribute("questions", paginationDto);
 
+        } else if ("replies".equals(action)){
+
+            PaginationDto<NotificationDto> paginationDto = notificationService.list(user.getId(), page, size);
+            Long unreadCount = notificationService.unreadCount(user.getId());
+
+            model.addAttribute("questions", paginationDto);
+            model.addAttribute("section", "replies");
+            model.addAttribute("sectionName", "My replies");
+        }
 
         return "profile";
     }

@@ -69,19 +69,47 @@
         <h2><span th:text="${sectionName}"></span></h2>
         <hr>
 
-        <div class="media" th:each="question : ${questions.getQuestions()}">
-            <img src="" class="mr-3" alt="" th:src="${question.getUser().getAvatarUrl()}" style="width: 30px">
-            <div class="media-body">
-                <h5 class="mt-0" th:text="${question.getTitle()}">How to build a website?</h5>
-                <span th:text="${question.getDescription()}">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</span>
-                <span class="float-right">
+
+        <div class="col-lg-12 col-md-12 col-sm-12, col-xs-12" th:if="${section == 'questions'}">
+
+            <div class="media" th:each="question : ${questions.getData()}">
+                <img src="" class="mr-3" alt="" th:src="${question.getUser().getAvatarUrl()}" style="width: 30px">
+                <div class="media-body">
+                    <h5 class="mt-0" th:text="${question.getTitle()}">How to build a website?</h5>
+                    <span th:text="${question.getDescription()}">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</span>
+                    <span class="float-right">
                     <a th:href="@{'/publish/' + ${question.id}}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
                 <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
             </svg>Edit</a>
                 </span>
-                <span class="text-description"><span th:text="${question.getCommentCount()}">0</span> comment • <span th:text="${question.getViewCount()}">47</span> view • post at <span th:text="${#dates.format(question.getGmtCreate(), 'dd MMM, yyyy')}"></span></span>
+                    <span class="text-description"><span th:text="${question.getCommentCount()}">0</span> comment • <span th:text="${question.getViewCount()}">47</span> view • post at <span th:text="${#dates.format(question.getGmtCreate(), 'dd MMM, yyyy')}"></span></span>
+                </div>
             </div>
+
+
+
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12, col-xs-12" th:if="${section == 'replies'}">
+
+            <div class="media" th:each="notification : ${questions.getData()}">
+                <div class="media-body">
+                    <h5 class="mt-0" th:text="${notification.notifierName + notification.type + notification.outerTitle}">How to build a website?</h5>
+                </div>
+            </div>
+
+
+<!--            <nav aria-label="Page navigation example">-->
+<!--                <ul class="pagination">-->
+<!--                    <li class="page-item" th:if="${questions.showFirstPage}"><a class="page-link" th:href="@{/(page=1)}">&lt;&lt;</a></li>-->
+<!--                    <li class="page-item" th:if="${questions.showPrevious}"><a class="page-link" href="" th:href="@{'/profile/'+ ${section}(page=1)}">&lt;</a></li>-->
+
+<!--                    <li class="page-item" th:class="${questions.page == page}? 'page-item active': 'page-item'" th:each="page : ${questions.getPages()}"><a class="page-link" href="/" th:href="@{'/profile/'+ ${section}(page=${page})}" th:text="${page}" >Previous</a></li>-->
+<!--                    <li class="page-item" th:if="${questions.showNext}"><a class="page-link" href="#" th:href="@{'/profile/'+ ${section}(page=${questions.page+1})}">&gt;</a></li>-->
+<!--                    <li class="page-item" th:if="${questions.showEndPage}"><a class="page-link" href="#" th:href="@{'/profile/'+ ${section}(page=${questions.totalPage})}">&gt;&gt;</a></li>-->
+<!--                </ul>-->
+<!--            </nav>-->
         </div>
 
 
@@ -99,13 +127,12 @@
 
 
 
-
     </div>
     <div class="col-lg-3 col-md-12 col-sm-12, col-xs-12">
         <div class="list-group">
             <a type="button" href="/profile/questions" class="list-group-item list-group-item-action" th:classappend="${section == 'questions'? 'active':''}" >My questions</a>
             <a type="button" href="/profile/replies" class="list-group-item list-group-item-action" th:classappend="${section == 'replies'? 'active':''}">Latest Comment
-            <span class="badge">12</span>
+            <span class="badge" th:text="${unreadCount}">12</span>
             </a>
         </div>
     </div>

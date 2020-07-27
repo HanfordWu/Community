@@ -72,7 +72,7 @@
         </svg>Post</h2>
         <hr>
 
-        <div class="media" th:each="question : ${questions.getQuestions()}">
+        <div class="media" th:each="question : ${questions.getData()}">
             <img src="" class="mr-3" alt="" th:src="${question.getUser().getAvatarUrl()}" style="width: 50px">
             <div class="media-body">
                 <h5 class="mt-0" >

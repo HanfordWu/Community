@@ -1,6 +1,7 @@
 package ca.concordia.community.controller;
 
 import ca.concordia.community.dto.PaginationDto;
+import ca.concordia.community.dto.QuestionDto;
 import ca.concordia.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,10 +24,11 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model,
                         @RequestParam(name="page", defaultValue = "1") Integer page,
-                        @RequestParam(name="size", defaultValue = "10") Integer size
+                        @RequestParam(name="size", defaultValue = "10") Integer size,
+                        @RequestParam(name="search", required = false) String search
                         ){
 
-        PaginationDto questions=questionService.listQuestion(page, size);
+        PaginationDto<QuestionDto> questions=questionService.listQuestion(page, size, search);
         model.addAttribute("questions", questions);
 
 
