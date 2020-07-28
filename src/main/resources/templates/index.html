@@ -19,6 +19,10 @@
             color: #999;
         }
 
+        body{
+            background-image: url("/images/bg.png");
+        }
+
 
 
     </style>
@@ -27,7 +31,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="container navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Concordia Community</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -40,10 +44,9 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
 
-            <a class="nav-link" href="/publish">New Question</a>
+            <a class="nav-item btn btn-outline-success" style="margin: 0 10px; text-align: center" href="/publish">New Question</a>
 
-
-            <li class="nav-item" th:if="${session.user == null}">
+            <li class="nav-item" style="margin: 0 10px;" th:if="${session.user == null}">
                 <a class="nav-link" href="https://github.com/login/oauth/authorize?client_id=21a08d7375c84e0068fa&client_secret=b48815e2a7695c2fd702cbe4f18cd3596ab16558&redirect_uri=http://localhost:8080/callback&scope=user">Login</a>
             </li>
             <li class="nav-item dropdown" th:if="${session.user != null}">
@@ -65,14 +68,14 @@
 </nav>
 
 <div class="container main">
-<div class="row">
+<div class="row" style="margin-top: 20px">
     <div class="col-lg-9 col-md-12 col-sm-12, col-xs-12">
         <h2><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list-ul" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-        </svg>Post</h2>
+        </svg>  Posts</h2>
         <hr>
 
-        <div class="media" th:each="question : ${questions.getQuestions()}">
+        <div class="media" th:each="question : ${questions.getQuestions()}" style="background-color: #eeeeee">
             <img src="" class="mr-3" alt="" th:src="${question.getUser().getAvatarUrl()}" style="width: 50px">
             <div class="media-body">
                 <h5 class="mt-0" >
@@ -96,8 +99,19 @@
 
     </div>
     <div class="col-lg-3 col-md-12 col-sm-12, col-xs-12">
-        <h3>Top topics</h3>
-        <p>When you start your question ,you should know the question should not be duplicate with questions already there!</p>
+        <div class="col-lg-12 col-md-12 col-sm-12, col-xs-12">
+
+            <h3>Guide</h3>
+            <p>When you start your question ,you should know the question should not be duplicate with questions already there!</p>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12, col-xs-12">
+            <h3>Top topics</h3>
+            <div th:each="relatedQuestion: ${questions.getQuestions()}">
+
+                <a href="" th:href="${'/question/'+relatedQuestion.id}" th:text="${relatedQuestion.getTitle()}"></a>
+            </div>
+
+        </div>
 
     </div>
 

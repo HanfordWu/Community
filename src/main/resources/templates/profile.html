@@ -27,7 +27,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="container navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Concordia Community</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -40,10 +40,9 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
 
-            <a class="nav-link" href="/publish">New Question</a>
+            <a class="nav-item btn btn-outline-success" style="margin: 0 10px; text-align: center" href="/publish">New Question</a>
 
-
-            <li class="nav-item" th:if="${session.user == null}">
+            <li class="nav-item" style="margin: 0 10px;" th:if="${session.user == null}">
                 <a class="nav-link" href="https://github.com/login/oauth/authorize?client_id=21a08d7375c84e0068fa&client_secret=b48815e2a7695c2fd702cbe4f18cd3596ab16558&redirect_uri=http://localhost:8080/callback&scope=user">Login</a>
             </li>
             <li class="nav-item dropdown" th:if="${session.user != null}">
@@ -52,10 +51,10 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
                     <a class="dropdown-item" href="/profile/questions">Profile</a>
-                    <a class="dropdown-item" href="#">Message</a>
+                    <a class="dropdown-item" href="/profile/replies">Message <span class="badge badge-danger float-right">Danger</span></a>
                     <a class="dropdown-item" href="#">Profile</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#/logout">Logout</a>
+                    <a class="dropdown-item" href="/logout">Logout</a>
                 </div>
             </li>
 
@@ -63,6 +62,7 @@
 
     </div>
 </nav>
+
 <div class="container main">
 <div class="row">
     <div class="col-lg-9 col-md-12 col-sm-12, col-xs-12">
