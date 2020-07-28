@@ -22,3 +22,9 @@ Technology stack:
 |Bootstrap|https://v3.bootcss.com/getting-started/|
 |Github OAuth|https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/|
 |Bootstrap|https://v3.bootcss.com/getting-started/|
+
+**Screenshot(Don't mind the ugly UI):**
+
+![alt](./src/main/resources/static/images/Screenshot.png)
+![alt](./src/main/resources/static/images/Screenshot3.png)
+
