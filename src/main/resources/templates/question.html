@@ -10,12 +10,6 @@
     <script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
 
     <script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
-
-    <link rel="stylesheet" href="../static/css/editormd.css"  th:href="@{/css/editormd.css}">
-    <script src="../static/js/editormd.js" th:src="@{/js/editormd.js}"></script>
-    <script src="../static/js/lib/marked.min.js" th:src="@{/js/lib/marked.min.js}"></script>
-    <script src="../static/js/lib/prettify.min.js" th:src="@{/js/lib/prettify.min.js}"></script>
-    <link rel="stylesheet" href="../static/css/editormd.preview.css" th:href="@{/css/editormd.preview.css}">
 <!--    <script src="../static/js/bootstrap.bundle.js"></script>-->
 
     <style>
@@ -88,21 +82,7 @@
 
         <hr>
 
-        <div id="test-markdown-view" class="col-lg-12 col-md-12 col-sm-12, col-xs-12">
-            <textarea style="display:none;" th:text="${question.getDescription()}">### Hello world!</textarea>
-        </div>
-        <script type="text/javascript">
-            $(function() {
-                var testView = editormd.markdownToHTML("test-markdown-view", {
-                    // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
-                    // htmlDecode : true,  // Enable / disable HTML tag encode.
-                    // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
-                });
-            });
-        </script>
-
-
-
+        <div class="col-lg-12 col-md-12 col-sm-12, col-xs-12" th:text="${question.getDescription()}"></div>
         <span th:each="stag : ${question.tag.split(' ')}">
         <span class="badge badge-info" th:text="${stag}"></span>
 

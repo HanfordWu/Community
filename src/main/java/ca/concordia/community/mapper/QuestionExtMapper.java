@@ -1,9 +1,7 @@
 package ca.concordia.community.mapper;
 
 import ca.concordia.community.dto.QuestionDto;
-import ca.concordia.community.dto.QuestionQueryDto;
 import ca.concordia.community.model.Question;
-import ca.concordia.community.model.QuestionExample;
 
 import java.util.List;
 
@@ -14,6 +12,4 @@ public interface QuestionExtMapper {
     int incView(Question record);
     int incCommentCount(Question record);
     List<Question> selectRelated(QuestionDto question);
-
-    int countBySearch(QuestionQueryDto questionQueryDto);
 }

@@ -50,15 +50,5 @@
     where id != #{id}
     and tag regexp #{tag}
   </select>
-  <select id="countBySearch" resultType="java.lang.Integer" parameterType="ca.concordia.community.dto.QuestionQueryDto" resultMap="BaseResultMap">
 
-
-    select count(*) from QUESTION
-    <where>
-      <if test="search != null">
-        and title regexp #{search}
-      </if>
-    </where>
-
-  </select>
 </mapper>
